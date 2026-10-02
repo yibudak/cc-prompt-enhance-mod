@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "prompt-enhance",
+  "description": "Minimal, context-aware prompt edits for Claude Code",
+  "owner": {
+    "name": "Yigit Budak",
+    "email": "yibudak@gmail.com",
+    "url": "https://github.com/yibudak"
+  },
+  "plugins": [
+    {
+      "name": "prompt-enhance",
+      "description": "Enhance button above the prompt: Sonnet sharpens your draft using the recent conversation",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
