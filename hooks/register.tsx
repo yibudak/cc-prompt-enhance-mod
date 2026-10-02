@@ -7,9 +7,9 @@ const RECENT_MESSAGES = 10
 const MESSAGE_CHARS = 2000
 const CONTEXT_CHARS = 12000
 
-const hasDraft = atom({ plugin: 'prompt-enhance', key: 'hasDraft' } as const, false)
-const isBusy = atom({ plugin: 'prompt-enhance', key: 'isBusy' } as const, false)
-const previous = atom({ plugin: 'prompt-enhance', key: 'previous' } as const, null)
+const hasDraft = atom({ plugin: 'cc-prompt-enhance-mod', key: 'hasDraft' } as const, false)
+const isBusy = atom({ plugin: 'cc-prompt-enhance-mod', key: 'isBusy' } as const, false)
+const previous = atom({ plugin: 'cc-prompt-enhance-mod', key: 'previous' } as const, null)
 
 const SYSTEM = `You rewrite a developer's draft prompt for Claude Code into the prompt they would have written with more time and the whole session in view.
 The result is sent to Claude Code as is, in place of the draft, so it has to stand on its own: a teammate who missed the conversation should be able to act on it without asking anything. Claude does its best work from a clear goal, the reason behind it, concrete references and a visible finish line, so those are what you add.

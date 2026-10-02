@@ -13,7 +13,7 @@ const SURFACES = ['terminal', 'desktop'] as const
 
 // prompt.edit comes only from the composer and $.model.complete is no event,
 // so the kit can't drive a draft or a reply: this covers the empty-box path.
-describe('prompt-enhance band', () => {
+describe('cc-prompt-enhance-mod band', () => {
   for (const surface of SURFACES) {
     test(`leaves the band to the engine while the box is empty (${surface})`, async ($, on) => {
       on('ui.render', ($, e) => {
@@ -21,7 +21,7 @@ describe('prompt-enhance band', () => {
         return Text({ children: 'engine band' })
       })
       on('prompt.submit', ($, e) => ({ text: e.text }))
-      const mount = () => $.ui.mount({ plugin: 'prompt-enhance', surface, component: 'AbovePrompt', props: BAND })
+      const mount = () => $.ui.mount({ plugin: 'cc-prompt-enhance-mod', surface, component: 'AbovePrompt', props: BAND })
 
       const empty = await mount()
       expect(await empty.find({ key: 'enhance' })).toBeUndefined()

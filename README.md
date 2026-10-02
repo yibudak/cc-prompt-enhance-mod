@@ -1,4 +1,4 @@
-<h1 align="center">prompt-enhance</h1>
+<h1 align="center">cc-prompt-enhance-mod</h1>
 
 <p align="center">
   <b>One click turns a vague draft into a precise prompt, without making it longer than it needs to be.</b><br>
@@ -35,10 +35,10 @@ You type `fix that error so the test pases`. Claude already knows which error yo
 Run these as two separate prompts in Claude Code:
 
 ```text
-/plugin marketplace add yibudak/prompt-enhance
+/plugin marketplace add yibudak/cc-prompt-enhance-mod
 ```
 ```text
-/plugin install prompt-enhance@prompt-enhance
+/plugin install cc-prompt-enhance-mod@cc-prompt-enhance-mod
 ```
 
 Then run `/reload-plugins`, or start a new session. The button appears once you type. Drafts under two words or ten characters turn red with "This prompt is too short to enhance".
@@ -93,11 +93,11 @@ It reads the conversation and the prompt box, fills the prompt box, makes one mo
 ## Development
 
 ```bash
-git clone https://github.com/yibudak/prompt-enhance
-claude --plugin-dir ./prompt-enhance            # loads it and hot-reloads on save
-claude plugin validate ./prompt-enhance/.claude-plugin/plugin.json
-claude plugin test ./prompt-enhance
-cd prompt-enhance && vhs scripts/demo.tape      # re-records assets/demo.gif
+git clone https://github.com/yibudak/cc-prompt-enhance-mod
+claude --plugin-dir ./cc-prompt-enhance-mod            # loads it and hot-reloads on save
+claude plugin validate ./cc-prompt-enhance-mod/.claude-plugin/plugin.json
+claude plugin test ./cc-prompt-enhance-mod
+cd cc-prompt-enhance-mod && vhs scripts/demo.tape      # re-records assets/demo.gif
 ```
 
 Claude Code writes the API types to `.claude-plugin/types/` when it loads the mod. That folder is ignored by git.

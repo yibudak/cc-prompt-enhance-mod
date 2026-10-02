@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "prompt-enhance",
+  "name": "cc-prompt-enhance-mod",
   "description": "Minimal, context-aware prompt edits for Claude Code",
   "owner": {
     "name": "Yigit Budak",
@@ -9,7 +9,7 @@
   },
   "plugins": [
     {
-      "name": "prompt-enhance",
+      "name": "cc-prompt-enhance-mod",
       "description": "Enhance button above the prompt: Sonnet sharpens your draft using the recent conversation",
       "source": "./",
       "category": "productivity"
