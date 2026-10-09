@@ -4,7 +4,7 @@ import { isEnhanceable, rainbow } from '../hooks/register'
 
 describe('isEnhanceable', () => {
   test('needs two words and ten characters after trimming', async () => {
-    for (const text of ['', '   ', 'refactor', '  refactorings  ', '\nfix\n', 'fix it', '  fix   it  ', 'fix\tbug']) {
+    for (const text of ['', '   ', 'A', 'refactor', '  refactorings  ', '\nfix\n', 'fix it', '  fix   it  ', 'fix\tbug']) {
       expect(isEnhanceable(text)).toBe(false)
     }
     for (const text of ['fix the bug', '  fix   the bug  ', 'fix\nthis now', 'fix\tthe bug now']) {

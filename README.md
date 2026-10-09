@@ -41,7 +41,7 @@ Run these as two separate prompts in Claude Code:
 /plugin install cc-prompt-enhance-mod@cc-prompt-enhance-mod
 ```
 
-Then run `/reload-plugins`, or start a new session. The button appears once you type. Drafts under two words or ten characters turn red with "This prompt is too short to enhance".
+Then run `/reload-plugins`, or start a new session. The button appears once the draft has at least two words and ten characters.
 
 ### Ctrl+E (one-time setup)
 

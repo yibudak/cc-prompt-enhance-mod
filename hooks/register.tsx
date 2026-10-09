@@ -102,11 +102,8 @@ Rename \`getUser\` to \`fetchUser\` in \`src/api/users.ts\` and update every cal
 </example>
 </examples>`
 
-// The one gate for enhancing: two or more words and ten or more characters
+// The one gate for the button and enhancing: two or more words and ten or more characters
 export const isEnhanceable = (text: string) => text.trim().split(/\s+/).length >= 2 && text.trim().length >= 10
-
-// The button shows for any draft, so a short one gets the error instead of nothing
-const hasText = (text: string) => text.trim() !== ''
 
 // The hue wheel walked one level at a time along the edges of the xterm
 // 256-color cube, so neighbors blend and a 256-color terminal shows the same
@@ -218,7 +215,7 @@ const enhance = async ($: EngineInterface) => {
       return
     }
     await update($, previous, () => draft)
-    await update($, hasDraft, () => hasText(filled.text))
+    await update($, hasDraft, () => isEnhanceable(filled.text))
   } finally {
     // Clears the rainbow on every path that left the draft in the box
     if ((await $.prompt.read()).text === draft) await $.prompt.fill({ text: draft })
@@ -232,20 +229,20 @@ const revert = async ($: EngineInterface) => {
   const filled = await $.prompt.fill({ text, mode: 'replace' })
   if (!filled.isFilled) return
   await update($, previous, () => null)
-  await update($, hasDraft, () => hasText(text))
+  await update($, hasDraft, () => isEnhanceable(text))
 }
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     const text = (await $.prompt.read()).text
-    await update($, hasDraft, () => hasText(text))
+    await update($, hasDraft, () => isEnhanceable(text))
     return next(e)
   })
 
   on('prompt.edit', async ($, e, next) => {
     const r = await next(e)
     if (r.text === e.text) return r
-    const draft = hasText(r.text)
+    const draft = isEnhanceable(r.text)
     if (draft !== (await read($, hasDraft))) {
       await update($, hasDraft, () => draft)
     }
