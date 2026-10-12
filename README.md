@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/demo.gif" width="880" alt="A Claude Code session where Claude has explained a failing test: create_user reads payload['mail'] but the test passes 'email'. The draft 'fix that error so the test pases' is typed and Ctrl+E is pressed. A rainbow flows across the draft while Sonnet works, then the draft becomes a precise prompt naming the KeyError, app/users.py:2 and test_create_user">
+  <img src="assets/demo.gif" width="880" alt="A Claude Code session where Claude has explained a failing test: create_user reads payload['mail'] but the test passes 'email'. The draft 'fix that error so the test pases' is typed and Ctrl+E is pressed. A red, dark red, black and gray wave flows across the draft while Sonnet works, then the draft becomes a precise prompt naming the KeyError, app/users.py:2 and test_create_user">
 </p>
 
 <p align="center"><sub>A real Claude Code session, recorded with <a href="https://github.com/charmbracelet/vhs">VHS</a> from <a href="scripts/demo.tape"><code>scripts/demo.tape</code></a>.</sub></p>
