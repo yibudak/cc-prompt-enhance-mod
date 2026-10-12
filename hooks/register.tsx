@@ -105,46 +105,24 @@ Rename \`getUser\` to \`fetchUser\` in \`src/api/users.ts\` and update every cal
 // The one gate for the button and enhancing: two or more words and ten or more characters
 export const isEnhanceable = (text: string) => text.trim().split(/\s+/).length >= 2 && text.trim().length >= 10
 
-// The hue wheel walked one level at a time along the edges of the xterm
-// 256-color cube, so neighbors blend and a 256-color terminal shows the same
-// colors as a truecolor one instead of rounding a gradient into uneven steps
-const UP = [0, 95, 135, 175, 215]
-const DOWN = [255, 215, 175, 135, 95]
-const WHEEL = [
-  ...UP.map(v => [255, v, 0]), // red to yellow
-  ...DOWN.map(v => [v, 255, 0]), // yellow to green
-  ...UP.map(v => [0, 255, v]), // green to cyan
-  ...DOWN.map(v => [0, v, 255]), // cyan to blue
-  ...UP.map(v => [v, 0, 255]), // blue to magenta
-  ...DOWN.map(v => [255, 0, v]), // magenta back to red
+// A slow ember wave, all xterm 256-color entries so a 256-color terminal shows
+// the same colors as a truecolor one. Every step is dark enough for white text.
+const EMBER = [
+  '#d70000', '#af0000', '#870000', '#5f0000', // red to dark red
+  '#121212', '#262626', '#3a3a3a', '#4e4e4e', '#626262', '#6c6c6c', // black up to gray
+  '#626262', '#4e4e4e', '#3a3a3a', '#262626', '#121212', // gray back to black
+  '#5f0000', '#870000', '#af0000', // dark red back to red
 ]
-
-// WCAG relative luminance of an [r, g, b] color
-const luminance = (rgb: number[]) => {
-  const [r = 0, g = 0, b = 0] = rgb.map(v => {
-    const c = v / 255
-    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
-  })
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b
-}
-
-// Each background with black or white text, whichever contrasts more
-const RAINBOW = WHEEL.map(rgb => {
-  const l = luminance(rgb)
-  return {
-    backgroundColor: '#' + rgb.map(v => v.toString(16).padStart(2, '0')).join(''),
-    color: (l + 0.05) / 0.05 >= 1.05 / (l + 0.05) ? '#000000' : '#ffffff',
-  }
-})
 const FRAME_MS = 100
 
 // One background per character, shifted one step right each frame
 // ponytail: one decoration per character, group runs if long drafts lag
-export const rainbow = (text: string, frame: number) =>
+export const ember = (text: string, frame: number) =>
   Array.from({ length: text.length }, (_, i) => ({
     start: i,
     end: i + 1,
-    ...RAINBOW[(i - (frame % RAINBOW.length) + RAINBOW.length) % RAINBOW.length],
+    backgroundColor: EMBER[(i - (frame % EMBER.length) + EMBER.length) % EMBER.length],
+    color: '#ffffff',
   }))
 
 const clip = (text: string, max: number) => (text.length > max ? text.slice(0, max) + '…' : text)
@@ -182,7 +160,7 @@ const enhance = async ($: EngineInterface) => {
     // ponytail: a key typed between the read and the fill is lost, a paint-only API would fix it
     const painting = (async () => {
       for (let frame = 0; !isDone; frame++) {
-        if ((await $.prompt.read()).text === draft) await $.prompt.fill({ text: draft, decorations: rainbow(draft, frame) })
+        if ((await $.prompt.read()).text === draft) await $.prompt.fill({ text: draft, decorations: ember(draft, frame) })
         await $.clock.sleep(FRAME_MS)
       }
     })()
@@ -217,7 +195,7 @@ const enhance = async ($: EngineInterface) => {
     await update($, previous, () => draft)
     await update($, hasDraft, () => isEnhanceable(filled.text))
   } finally {
-    // Clears the rainbow on every path that left the draft in the box
+    // Clears the animation on every path that left the draft in the box
     if ((await $.prompt.read()).text === draft) await $.prompt.fill({ text: draft })
     await update($, isBusy, () => false)
   }

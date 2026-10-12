@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'claude-code/testing'
 
-import { isEnhanceable, rainbow } from '../hooks/register'
+import { ember, isEnhanceable } from '../hooks/register'
 
 describe('isEnhanceable', () => {
   test('needs two words and ten characters after trimming', async () => {
@@ -27,14 +27,15 @@ const contrast = (a: string, b: string) => {
 }
 
 const LEVELS = [0, 95, 135, 175, 215, 255]
+const GRAYS = Array.from({ length: 24 }, (_, i) => 8 + 10 * i)
 const rgb = (hex = '') => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16))
 // Long enough to hold a whole cycle and its wrap back to red
 const TEXT = 'x'.repeat(64)
 
-describe('rainbow', () => {
+describe('ember', () => {
   test('paints every background and moves one step per frame', async () => {
-    const first = rainbow(TEXT, 0)
-    const next = rainbow(TEXT, 1)
+    const first = ember(TEXT, 0)
+    const next = ember(TEXT, 1)
     expect(first.length).toBe(TEXT.length)
     for (let i = 1; i < first.length; i++) {
       expect(next[i]?.backgroundColor).toBe(first[i - 1]?.backgroundColor)
@@ -42,17 +43,16 @@ describe('rainbow', () => {
     }
   })
 
-  test('blends neighbors one 256-color cube level at a time', async () => {
-    const bands = rainbow(TEXT, 0).map(d => rgb(d.backgroundColor))
-    expect(bands.flat().every(v => LEVELS.includes(v))).toBe(true)
-    // Exactly one channel moves, by one level, between any two neighbors
-    const steps = (a: number[], b: number[]) =>
-      a.map((v, c) => Math.abs(LEVELS.indexOf(v) - LEVELS.indexOf(b[c] ?? -1))).sort()
-    bands.slice(1).forEach((b, i) => expect(steps(bands[i] ?? [], b)).toEqual([0, 0, 1]))
+  test('uses only xterm 256-color cube and gray ramp entries', async () => {
+    for (const [r = -1, g = -1, b = -1] of ember(TEXT, 0).map(d => rgb(d.backgroundColor))) {
+      const isCube = [r, g, b].every(v => LEVELS.includes(v))
+      const isGray = r === g && g === b && GRAYS.includes(r)
+      expect(isCube || isGray).toBe(true)
+    }
   })
 
   test('keeps the text readable on every background', async () => {
-    for (const d of rainbow(TEXT, 0)) {
+    for (const d of ember(TEXT, 0)) {
       expect(contrast(d.color ?? '', d.backgroundColor ?? '')).toBeGreaterThanOrEqual(4.5)
     }
   })
